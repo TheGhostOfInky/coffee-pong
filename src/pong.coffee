@@ -22,9 +22,6 @@ debugDraw = () ->
     do drawPongCanvas
 
 document.onkeydown = ->
-    do updatePlayer
-
-updatePlayer = () ->
     if event.keyCode is 87 and paddle1 > 5
         paddle1 -= 5
     else if event.keyCode is 83 and paddle1 < 445

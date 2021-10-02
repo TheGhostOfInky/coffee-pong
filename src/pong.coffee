@@ -21,9 +21,6 @@ debugDraw = () ->
     ball_y = document.getElementById("ball_y").value
     do drawPongCanvas
 
-document.onkeypress = ->
-    do updatePlayer
-
 document.onkeydown = ->
     do updatePlayer
 

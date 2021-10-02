@@ -33,10 +33,6 @@ debugDraw = function() {
   return drawPongCanvas();
 };
 
-document.onkeypress = function() {
-  return updatePlayer();
-};
-
 document.onkeydown = function() {
   return updatePlayer();
 };

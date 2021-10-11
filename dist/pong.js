@@ -102,8 +102,8 @@ updateGame = function() {
   }
   //paddle1 hit
   if (ball_x < 60) {
-    paddletop = paddle1 + 5;
-    paddlebottom = paddle1 + 55;
+    paddletop = paddle1 - 10;
+    paddlebottom = paddle1 + 50;
     if (paddletop < ball_y && paddlebottom > ball_y) {
       ball_x_speed = -ball_x_speed;
     } else {
@@ -113,8 +113,8 @@ updateGame = function() {
   }
   //paddle2 hit
   if (ball_x > 630) {
-    paddletop = paddle2 + 5;
-    paddlebottom = paddle2 + 55;
+    paddletop = paddle2 - 10;
+    paddlebottom = paddle2 + 50;
     if (paddletop < ball_y && paddlebottom > ball_y) {
       ball_x_speed = -ball_x_speed;
     } else {

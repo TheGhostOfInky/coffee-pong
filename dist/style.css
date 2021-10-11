@@ -1,5 +1,9 @@
+@font-face {
+  font-family: Westminster;
+  src: url("/assets/Westminster.ttf");
+}
 html {
-  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  font-family: Westminster, display;
 }
 
 body {

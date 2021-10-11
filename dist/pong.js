@@ -33,7 +33,7 @@ drawPongCanvas = function() {
   ctx.fillRect(50, paddle1, 10, 50);
   ctx.fillRect(640, paddle2, 10, 50);
   ctx.fillRect(ball_x, ball_y, 10, 10);
-  ctx.font = "500 50px";
+  ctx.font = "500 50px Westminster";
   ctx.fillText(score1, 150, 50);
   return ctx.fillText(score2, 500, 50);
 };
@@ -112,7 +112,7 @@ updateGame = function() {
     }
   }
   //paddle2 hit
-  if (ball_x > 635) {
+  if (ball_x > 630) {
     paddletop = paddle2 + 5;
     paddlebottom = paddle2 + 55;
     if (paddletop < ball_y && paddlebottom > ball_y) {

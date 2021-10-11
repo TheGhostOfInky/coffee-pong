@@ -21,7 +21,7 @@
             }
         },
         {
-            "label": "compile2",
+            "label": "Sass compile",
             "type": "shell",
             "command": "sass",
             "args": [

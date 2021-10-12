@@ -21,6 +21,21 @@
             }
         },
         {
+            "label": "Coffeescript compile + watch",
+            "type": "shell",
+            "command": "coffee",
+            "args": [
+                "-c",
+                "-b",
+                "-w",
+                "-o",
+                "dist/",
+                "src/"
+            ],
+            "problemMatcher": [],
+            "group": "build"
+        },
+        {
             "label": "Sass compile",
             "type": "shell",
             "command": "sass",

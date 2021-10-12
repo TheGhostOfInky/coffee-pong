@@ -1,16 +1,13 @@
 #Define variables
 bg = "#FFF"
 fg = "#000"
-paddle1 = 225
-paddle2 = 225
-ball_x = 65
-ball_y = 65
-ball_x_speed = 4
-ball_y_speed = 4
-score1 = 0
-score2 = 0
+paddle1 = paddle2 = 225
+ball_x = ball_y = 65
+ball_x_speed = ball_y_speed = 4
+score1 = score2 = cs = 0
 p1up = p1down = p2up = p2down = debug = false
 play = true
+colors = exports ? this
 
 #Input parsers
 document.onkeydown = ->
@@ -44,8 +41,12 @@ resetball = () ->
     ball_y = 75
     ball_x_speed = 4
     ball_y_speed = 4
-    bg = [fg, fg = bg][0]
-
+    cs += 1
+    if cs >= colors.length
+        cs = 0
+    bg = colors[cs].bg
+    fg = colors[cs].fg
+    
 #Debugging
 debugDraw = () ->
     paddle1 = document.getElementById("paddle1").value
@@ -133,7 +134,7 @@ updateGame = () ->
     ball_x += ball_x_speed
     ball_y += ball_y_speed
 
-gameLogic = ()  ->
+gameLogic = () ->
     if play is false
         return
     do updateGame
@@ -142,5 +143,9 @@ gameLogic = ()  ->
         do debugUpdate
     else
         document.getElementById("dev-tools").style.display = "none"
+
+fetch("assets/colors.json")
+    .then((response)-> response.json())
+    .then((data)-> colors = data)
 
 setInterval(gameLogic, 1000/60)

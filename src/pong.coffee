@@ -1,3 +1,4 @@
+#Define variables
 bg = "#FFF"
 fg = "#000"
 paddle1 = 225
@@ -8,7 +9,79 @@ ball_x_speed = 4
 ball_y_speed = 4
 score1 = 0
 score2 = 0
-p1up = p1down = p2up = p2down = false
+p1up = p1down = p2up = p2down = debug = false
+play = true
+
+#Input parsers
+document.onkeydown = ->
+    if event.keyCode is 87
+        p1up = true
+    if event.keyCode is 83
+        p1down = true
+    if event.keyCode is 38
+        p2up = true
+    if event.keyCode is 40
+        p2down = true
+    if event.keyCode is 89
+        debug = !debug
+        do debugUpdate
+    if event.keyCode is 80
+        play = !play
+
+document.onkeyup = ->
+    if event.keyCode is 87
+        p1up = false
+    if event.keyCode is 83
+        p1down = false
+    if event.keyCode is 38
+        p2up = false
+    if event.keyCode is 40
+        p2down = false
+
+#reset ball
+resetball = () ->
+    ball_x = 75
+    ball_y = 75
+    ball_x_speed = 4
+    ball_y_speed = 4
+    bg = [fg, fg = bg][0]
+
+#Debugging
+debugDraw = () ->
+    paddle1 = document.getElementById("paddle1").value
+    paddle2 = document.getElementById("paddle2").value
+    ball_x = document.getElementById("ball_x").value
+    ball_y = document.getElementById("ball_y").value
+    ball_x_speed = document.getElementById("ball_x_speed").value
+    ball_y_speed = document.getElementById("ball_y_speed").value
+    do drawPongCanvas
+
+debugUpdate = () ->
+    document.getElementById("dev-tools").style.display = "block"
+    document.getElementById("paddle1").value = paddle1
+    document.getElementById("paddle2").value = paddle2
+    document.getElementById("ball_x").value = ball_x
+    document.getElementById("ball_y").value = ball_y
+    document.getElementById("ball_x_speed").value = ball_x_speed
+    document.getElementById("ball_y_speed").value = ball_y_speed
+    if p1up is true
+        document.getElementById("p1up").style.backgroundColor = "#0F0"
+    else
+        document.getElementById("p1up").style.backgroundColor = "#DDD"
+    if p1down is true
+        document.getElementById("p1down").style.backgroundColor = "#0F0"
+    else
+        document.getElementById("p1down").style.backgroundColor = "#DDD"
+    if p2up is true
+        document.getElementById("p2up").style.backgroundColor = "#0F0"
+    else
+        document.getElementById("p2up").style.backgroundColor = "#DDD"
+    if p2down is true
+        document.getElementById("p2down").style.backgroundColor = "#0F0"
+    else
+        document.getElementById("p2down").style.backgroundColor = "#DDD"
+
+#Game logic
 drawPongCanvas = () ->
     c = document.getElementById("PongCanvas")
     ctx = c.getContext("2d")
@@ -22,50 +95,8 @@ drawPongCanvas = () ->
     ctx.fillText(score1,150,50)
     ctx.fillText(score2,500,50)
 
-debugDraw = () ->
-    paddle1 = document.getElementById("paddle1").value
-    paddle2 = document.getElementById("paddle2").value
-    ball_x = document.getElementById("ball_x").value
-    ball_y = document.getElementById("ball_y").value
-    do drawPongCanvas
-
-###document.addEventListener('keydown', updatePaddlesDown)
-document.addEventListener('keyup', updatePaddlesUp)
-
-updatePaddlesDown = (key) ->
-    console.log(key)
-    switch key.keycode
-        when 87 then p1up = true
-        when 83 then p1down = true
-        when 38 then p2up = true
-        when 40 then p2down = true
-
-updatePaddlesUp = (key) ->
-    console.log(key)
-    switch key.keycode
-        when 87 then p1up = false
-        when 83 then p1down = false
-        when 38 then p2up = false
-        when 40 then p2down = false###
-
-document.onkeydown = ->
-    if event.keyCode is 87 and paddle1 > 5
-        paddle1 -= 10
-    else if event.keyCode is 83 and paddle1 < 445
-        paddle1 += 10
-    if event.keyCode is 38 and paddle2 > 5
-        paddle2 -= 10
-    else if event.keyCode is 40 and paddle2 < 445
-        paddle2 += 10
-
-resetball = () ->
-    ball_x = 75
-    ball_y = 75
-    ball_x_speed = 4
-    ball_y_speed = 4    
-
 updateGame = () -> 
-    ###paddle1 update
+    #paddle1 update
     if p1up is true and paddle1 > 5
         paddle1 -= 5
     else if p1down is true and paddle1 < 445
@@ -74,7 +105,7 @@ updateGame = () ->
     if p2up is true and paddle2 > 5
         paddle2 -= 5
     else if p2down is true and paddle2 < 445
-        paddle2 += 5###
+        paddle2 += 5
     #top and bottom collision
     if ball_y < 5 or ball_y > 485
         ball_y_speed = -ball_y_speed
@@ -82,29 +113,34 @@ updateGame = () ->
     if ball_x < 60 
         paddletop = paddle1 - 10
         paddlebottom = paddle1 + 50
-        if paddletop < ball_y and paddlebottom > ball_y
+        if paddletop < ball_y and paddlebottom > ball_y and ball_x > 55
             ball_x_speed = -ball_x_speed
         else 
-            score2 += 1
-            do resetball
+            if ball_x < 5
+                score2 += 1
+                do resetball
     #paddle2 hit
     if ball_x > 630
         paddletop = paddle2 - 10
         paddlebottom = paddle2 + 50
-        if paddletop < ball_y and paddlebottom > ball_y
+        if paddletop < ball_y and paddlebottom > ball_y and ball_x < 635
             ball_x_speed = -ball_x_speed
         else 
-            score1 += 1
-            do resetball
+            if ball_x > 695
+                score1 += 1
+                do resetball
     #ball update
     ball_x += ball_x_speed
     ball_y += ball_y_speed
 
 gameLogic = ()  ->
+    if play is false
+        return
     do updateGame
     do drawPongCanvas
+    if debug is true
+        do debugUpdate
+    else
+        document.getElementById("dev-tools").style.display = "none"
 
 setInterval(gameLogic, 1000/60)
-
-window.onload = ->
-    do drawPongCanvas

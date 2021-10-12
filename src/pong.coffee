@@ -6,7 +6,7 @@ ball_x = ball_y = 65
 ball_x_speed = ball_y_speed = 4
 score1 = score2 = cs = 0
 p1up = p1down = p2up = p2down = debug = false
-play = true
+play = ai= true
 colors = exports ? this
 
 #Input parsers
@@ -15,25 +15,29 @@ document.onkeydown = ->
         p1up = true
     if event.keyCode is 83
         p1down = true
-    if event.keyCode is 38
-        p2up = true
-    if event.keyCode is 40
-        p2down = true
+    if ai is false
+        if event.keyCode is 38
+            p2up = true
+        if event.keyCode is 40
+            p2down = true
     if event.keyCode is 89
         debug = !debug
         do debugUpdate
     if event.keyCode is 80
         play = !play
+    if event.keyCode is 73
+        ai = !ai
 
 document.onkeyup = ->
     if event.keyCode is 87
         p1up = false
     if event.keyCode is 83
         p1down = false
-    if event.keyCode is 38
-        p2up = false
-    if event.keyCode is 40
-        p2down = false
+    if ai is false
+        if event.keyCode is 38
+            p2up = false
+        if event.keyCode is 40
+            p2down = false
 
 #reset ball
 resetball = () ->
@@ -134,11 +138,24 @@ updateGame = () ->
     ball_x += ball_x_speed
     ball_y += ball_y_speed
 
+aiLogic = () ->
+    if ball_y < paddle2 + 10
+        p2up = true
+        p2down = false
+    else if ball_y > paddle2 + 40
+        p2down = true
+        p2up = false
+    else
+        p2up = p2down = false
+
+
 gameLogic = () ->
     if play is false
         return
     do updateGame
     do drawPongCanvas
+    if ai is true
+        do aiLogic
     if debug is true
         do debugUpdate
     else

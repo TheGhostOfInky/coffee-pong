@@ -31,3 +31,10 @@ div.key {
   border-radius: 4px;
   display: block;
 }
+
+@media (prefers-color-scheme: dark) {
+  body {
+    background-color: #333;
+    color: #FFF;
+  }
+}

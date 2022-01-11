@@ -3,7 +3,7 @@ bg = "#FFF"
 fg = "#000"
 paddle1 = paddle2 = 225
 ball_x = ball_y = 65
-ball_x_speed = ball_y_speed = 4
+ball_x_speed = ball_y_speed = 6
 score1 = score2 = cs = 0
 p1up = p1down = p2up = p2down = debug = false
 play = ai= true
@@ -43,8 +43,8 @@ document.onkeyup = ->
 resetball = () ->
     ball_x = 75
     ball_y = 75
-    ball_x_speed = 4
-    ball_y_speed = 4
+    ball_x_speed = 6
+    ball_y_speed = 6
     cs += 1
     if cs >= colors.length
         cs = 0
@@ -161,8 +161,7 @@ gameLogic = () ->
     else
         document.getElementById("dev-tools").style.display = "none"
 
-fetch("assets/colors.json")
-    .then((response)-> response.json())
-    .then((data)-> colors = data)
-
-setInterval(gameLogic, 1000/60)
+window.onload = ->
+    colors = await fetch("assets/colors.json")
+        .then((response)-> response.json())
+    setInterval(gameLogic, 1000/60)

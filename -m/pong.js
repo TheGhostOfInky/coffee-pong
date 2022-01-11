@@ -221,5 +221,3 @@ window.onload = async function() {
   }));
   return setInterval(gameLogic, 1000 / 60);
 };
-
-//# sourceMappingURL=pong.js.map

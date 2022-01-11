@@ -10,6 +10,7 @@
             "args": [
                 "-c",
                 "-b",
+                "-m",
                 "-o",
                 "dist/",
                 "src/"
@@ -28,6 +29,7 @@
                 "-c",
                 "-b",
                 "-w",
+                "-m",
                 "-o",
                 "dist/",
                 "src/"
@@ -40,8 +42,7 @@
             "type": "shell",
             "command": "sass",
             "args": [
-                "src:dist",
-                "--no-source-map"
+                "src:dist"
             ],
             "problemMatcher": []
         }
